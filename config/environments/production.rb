@@ -46,4 +46,10 @@ OfferPadmapper::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+  vertica = YAML.load_file("#{Rails.root}/config/vertica.yml")
+  ENV["host"] = vertica["host"]
+  ENV["user"] = vertica["user"]
+  ENV["password"] = vertica["password"]
+  ENV["port"] = vertica["port"]
+  ENV["database"] = vertica["database"]
 end
