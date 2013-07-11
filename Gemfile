@@ -5,39 +5,7 @@ gem 'rails', '3.0.20'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem "vertica", "0.9.1"
 gem 'pg'
-gem 'haml-rails'
-#gem 'bootstrap-sass'
-#gem 'sass-rails'
-gem 'uglifier'
-#gem 'font-awesome-rails'
-gem 'uglifier'
-#gem 'coffee-rails'
-gem 'angularjs-rails'
-gem 'jquery-rails'
-gem 'jbuilder'
-gem 'unicorn'
-gem 'puma'
-gem 'figaro'
-gem 'annotate'
-gem 'httparty'
-gem 'gmaps4rails'
-gem 'geocoder'
-gem 'redis'
-gem 'faye-rails'
-gem 'faye-redis'
-gem 'thin'
-
-group :doc do
- gem 'sdoc', :require => false
-end
-
-group :test, :development do
-  gem 'pry'
-  gem 'rspec-rails'
-  #gem 'shoulda-matchers'
-end
 
 # Use unicorn as the web server
 # gem 'unicorn'

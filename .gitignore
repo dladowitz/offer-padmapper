@@ -4,4 +4,3 @@ log/*.log
 tmp/
 database.yml
 vertica.yml
-*.swp
