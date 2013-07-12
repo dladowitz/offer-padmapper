@@ -22,11 +22,5 @@ OfferPadmapper::Application.configure do
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
-  vertica = YAML.load_file("#{Rails.root}/config/vertica.yml")
-  ENV["host"] = vertica["host"]
-  ENV["user"] = vertica["user"]
-  ENV["password"] = vertica["password"]
-  ENV["port"] = vertica["port"]
-  ENV["database"] = vertica["database"]
 end
 
