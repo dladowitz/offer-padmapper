@@ -1,0 +1,22 @@
+!!!
+%html{"ng-app"=>"offerPad"}
+  %head
+    %meta{:charset => "utf-8"}
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1"}
+    %title= content_for?(:title) ? yield(:title) : "Offer Padmapper"
+    %meta{:content => "", :name => "description"}
+    %meta{:content => "", :name => "author"}
+    = stylesheet_link_tag :all
+    = csrf_meta_tag
+    = yield(:head)
+
+  %body
+    #main{:role => "main"}
+      .container
+        .content
+          .row
+            = yield
+
+    = javascript_include_tag "http://js.pusher.com/2.1/pusher.min.js"
+    = javascript_include_tag "https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"
+    = javascript_include_tag :application
