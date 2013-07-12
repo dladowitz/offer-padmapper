@@ -7,6 +7,7 @@ gem 'rails', '3.0.20'
 
 gem "vertica", "0.9.1"
 gem 'pg'
+gem "sprockets_rails3_backport"
 gem 'haml-rails'
 #gem 'bootstrap-sass'
 #gem 'sass-rails'
@@ -14,7 +15,6 @@ gem 'uglifier'
 #gem 'font-awesome-rails'
 gem 'uglifier'
 #gem 'coffee-rails'
-gem 'angularjs-rails'
 gem 'jquery-rails'
 gem 'jbuilder'
 gem 'unicorn'
@@ -28,6 +28,7 @@ gem 'redis'
 gem 'faye-rails'
 gem 'faye-redis'
 gem 'thin'
+gem 'pusher'
 
 group :doc do
  gem 'sdoc', :require => false
