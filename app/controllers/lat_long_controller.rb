@@ -1,5 +1,4 @@
-class LatLongController < FayeRails::Controller
-  observe LatLong, :after_create do |loc|
-    LatLongController.publish('/lat_long_stream', loc.attributes)
+class LatLongController < ApplicationController
+  def lat_long_stream
   end
 end
