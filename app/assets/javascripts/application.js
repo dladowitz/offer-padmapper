@@ -24,30 +24,31 @@ offerPad.factory('pusher', function($rootScope) {
   };
 });
 
-offerPad.controller('MapCtrl', function($scope, pusher) {
+offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
+  var map;
+  var us_center = new google.maps.LatLng(37.09024, -95.712891);
+  $scope.markers = [];
+  $scope.infoWindows =[];
   $scope.locations = [];
 
   pusher.bind('new_location', function(data) {
     $scope.locations.push(data);
   });
 
-  $scope.$watch('locations', function(oldVal, newVal) {
+  var delay = 1
+  $scope.$watch('locations', function(newVal, oldVal) {
     // Check diff between oldVal and newVal
     var diff = newVal.slice(oldVal.length, newVal.length);
-    if (diff.length > 0) {
-    // Iterate over diff and create markers
-      drop(diff);
+    if  (diff.length >0) {
+      // Iterate over diff and create markers
+      $timeout(function() {
+        addMarkerAndWindow(diff[0], diff.length);
+        delay--;
+      }, 2000 * delay++);
     }
-
-  })
+  }, true)
 
   // Display map
-  var map;
-  var us_center = new google.maps.LatLng(37.09024, -95.712891);
-  var markers = [];
-  var infoWindows =[];
-  var iterator = 0;
-
   function initialize() {
     var mapOptions = {
       zoom: 6,
@@ -71,15 +72,7 @@ offerPad.controller('MapCtrl', function($scope, pusher) {
     ].join('<br>');
   }
 
-  function drop(diff) {
-    for (var i = 0; i < diff.length; i++) {
-      $timeout(function() {
-        addMarkerAndWindow(diff[i], diff.length);
-      }, i * 4000);
-    }
-  }
-
-  function addMarkerAndWindow(offer, iterator) {
+  function addMarkerAndWindow(offer) {
     var site = position(offer.latitude, offer.longitude)
 
     // Add Google Marker using custom icon
@@ -92,30 +85,27 @@ offerPad.controller('MapCtrl', function($scope, pusher) {
       visible: true
     });
 
-    markers.push(marker);
+    $scope.markers.push(marker);
 
-    if (iterator >= 9){
-      markers[(iterator - 9)].setMap(null);
+    if ($scope.markers.length >= 11){
+      $scope.markers[($scope.markers.length - 11)].setMap(null);
     }
 
     // Add InfoWindow to map
     var infoWindow = new google.maps.InfoWindow({
       position: site,
       content: createInfoWindowContent(offer),
-      zIndex: iterator
+      zIndex: $scope.locations.length
     });
 
     infoWindow.open(map);
-    infoWindows.push(infoWindow)
+    $scope.infoWindows.push(infoWindow)
 
-    if (iterator >= 9){
-      infoWindows[(iterator - 9)].close();
+    if ($scope.infoWindows.length >= 11){
+      $scope.infoWindows[($scope.infoWindows.length - 11)].close();
     }
   }
 
   google.maps.event.addDomListener(window, 'load', initialize);
 
-  // window.onload = function () {
-  //   drop();
-  // };
 });
