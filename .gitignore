@@ -5,3 +5,7 @@ tmp/
 database.yml
 vertica.yml
 *.swp
+application.yml
+
+# Ignore application configuration
+/config/application.yml
