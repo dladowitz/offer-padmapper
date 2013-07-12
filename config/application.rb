@@ -38,5 +38,19 @@ module OfferPadmapper
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+    config.assets.paths                    = []
+    config.assets.precompile               = [ Proc.new{ |path| !['.js', '.css'].include?(File.extname(path)) },
+      /(?:\/|\\|\A)application\.(css|js)$/ ]
+    config.assets.prefix                   = "/assets"
+    config.assets.version                  = ''
+    config.assets.debug                    = false
+    config.assets.compile                  = true
+    config.assets.digest                   = false
+    config.assets.manifest                 = nil
+    config.assets.cache_store              = [ :file_store, "#{root}/tmp/cache/assets/" ]
+    config.assets.js_compressor            = nil
+    config.assets.css_compressor           = nil
+    config.assets.initialize_on_precompile = true
   end
 end

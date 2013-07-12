@@ -24,9 +24,10 @@ offerPad.factory('pusher', function($rootScope) {
   };
 });
 
-offerPad.controller('MapCtrl', [$scope, pusher, function($scope, pusher) {
-  var $scope.locations = [];
+offerPad.controller('MapCtrl', function($scope, pusher) {
+  $scope.locations = [];
+
   pusher.bind('new_location', function(data) {
-    $scope.messages.push(data);
+    $scope.locations.push(data);
   });
-}]);
+});

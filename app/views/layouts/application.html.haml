@@ -3,25 +3,20 @@
   %head
     %meta{:charset => "utf-8"}
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1"}
-    %title= content_for?(:title) ? yield(:title) : "Offer Pad-mapper"
+    %title= content_for?(:title) ? yield(:title) : "Offer Padmapper"
     %meta{:content => "", :name => "description"}
     %meta{:content => "", :name => "author"}
-    = stylesheet_link_tag "application", :media => "all"
-    = javascript_include_tag "application"
-    = javascript_include_tag "http://js.pusher.com/2.1/pusher.min.js"
-    = csrf_meta_tags
+    = stylesheet_link_tag :all
+    = csrf_meta_tag
     = yield(:head)
+
   %body
-    %header.navbar.navbar-fixed-top
-      %nav.navbar-inner
-        .container
-          = render 'layouts/navigation'
     #main{:role => "main"}
       .container
         .content
           .row
-            .span12
-              = render 'layouts/messages'
-              = yield
-          %footer
-            %hr
+            = yield
+
+    = javascript_include_tag "http://js.pusher.com/2.1/pusher.min.js"
+    = javascript_include_tag "https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"
+    = javascript_include_tag :application
