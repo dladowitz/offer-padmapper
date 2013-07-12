@@ -5,11 +5,10 @@ gem 'rails', '3.0.20'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'pg'
-gem "vertica", "~> 0.9.1"
+gem "vertica", "0.9.1"
 gem 'pg'
 gem 'haml-rails'
-gem 'bootstrap-sass'
+#gem 'bootstrap-sass'
 #gem 'sass-rails'
 gem 'uglifier'
 #gem 'font-awesome-rails'
