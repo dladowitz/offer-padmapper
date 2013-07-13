@@ -44,14 +44,14 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
       $timeout(function() {
         addMarkerAndWindow(diff[0], diff.length);
         delay--;
-      }, 2000 * delay++);
+      }, 3000 * delay++);
     }
   }, true)
 
   // Display map
   function initialize() {
     var mapOptions = {
-      zoom: 6,
+      zoom: 5,
       center: us_center,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };

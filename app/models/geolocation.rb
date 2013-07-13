@@ -11,7 +11,11 @@ class Geolocation
       results.each do |query|
         geoloc = Geocoder.search(query[:ip_address])
         loc = { :latitude => geoloc[0].latitude, :longitude => geoloc[0].longitude, :address => geoloc[0].address } if geoloc && geoloc[0]
-        publish_message(loc.merge(query))
+        if loc
+          publish_message(loc.merge(query))
+        else
+          sleep 3
+        end
       end
     end
   end
