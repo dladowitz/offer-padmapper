@@ -1,7 +1,4 @@
-# require 'geolocation'
-# require '../geolocation_lib'
-
-require 'rake'
+# require 'rake'
 
 task :get_conversions => :environment do
    puts "Starting query"

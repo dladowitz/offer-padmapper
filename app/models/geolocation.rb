@@ -1,5 +1,3 @@
-# In models folder
-
 require 'vertica_query'
 
 class Geolocation
