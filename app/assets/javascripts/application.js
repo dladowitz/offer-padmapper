@@ -66,9 +66,9 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
 
   function createInfoWindowContent(offer) {
     return [
-      "<strong>Offer:</strong> " + offer.name,
-      "<strong>Reward: </strong>" + offer.reward_amount + ' ' + offer.currency,
-      "<strong>Real Value: </strong> $" + ((offer.dollar_value) * .01).toFixed(2),
+      "<strong>Offer:</strong> " + offer.offer_name,
+      "<strong>Device Type: </strong>" + offer.device_type  ,
+      "<strong>Dollar Value: </strong> $" + (offer.revenue),
     ].join('<br>');
   }
 

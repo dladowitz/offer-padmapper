@@ -1,3 +1,5 @@
+# In models folder
+
 require 'vertica_query'
 
 class Geolocation
@@ -10,7 +12,7 @@ class Geolocation
       results = VerticaQuery.get_conversion_attempts
       results.each do |query|
         geoloc = Geocoder.search(query[:ip_address])
-        loc = { :latitude => geoloc[0].latitude, :longitude => geoloc[0].longitude, :address => geoloc[0].address }.to_json if geoloc && geoloc[0]
+        loc = { :latitude => geoloc[0].latitude, :longitude => geoloc[0].longitude, :address => geoloc[0].address } if geoloc && geoloc[0]
         publish_message(loc.merge(query))
       end
     end
