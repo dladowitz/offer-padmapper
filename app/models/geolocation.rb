@@ -28,8 +28,12 @@ class Geolocation
         if loc
           #publishes message to pusher service
           publish_message(loc.merge(query))
+
+          #slows down the stream to pusher so there is a slow constant stream for new users.
+          #rake task still only runs every 10 min.
+          sleep 7
         else
-          sleep 3
+          sleep 7
         end
       end
     end
