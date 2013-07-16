@@ -39,7 +39,8 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
   $scope.$watch('locations', function(newVal, oldVal) {
     // Check diff between oldVal and newVal
     var diff = newVal.slice(oldVal.length, newVal.length);
-    if  (diff.length > 0) {
+
+    // if  (diff.length > 0) {
       // Iterate over diff and create markers
       // $timeout(function() {
         addMarkerAndWindow(diff[0], diff.length);
@@ -47,10 +48,8 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
       // }, 500 * delay++);
 
         //removes first offer from locations so array doesn't grow indefintely
-        console.log('before: '+ $scope.locations.length)
-        // $scope.locations.splice(0,1)
-        // console.log('after: '+ $scope.locations.length)
-    }
+        $scope.locations.splice(0,1)
+    // }
   }, true)
 
   // Display map
