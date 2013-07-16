@@ -43,12 +43,14 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
     // if  (diff.length > 0) {
       // Iterate over diff and create markers
       // $timeout(function() {
-        addMarkerAndWindow(diff[0], diff.length);
+        addMarkerAndInfoBox(diff[0], diff.length);
         // delay--;
       // }, 500 * delay++);
 
         //removes first offer from locations so array doesn't grow indefintely
-        $scope.locations.splice(0,1)
+        if($scope.locations.length > 2){
+          $scope.locations.splice(0,1)
+        }
     // }
   }, true)
 
@@ -93,7 +95,7 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
     ].join('');
   }
 
-  function addMarkerAndWindow(offer) {
+  function addMarkerAndInfoBox(offer) {
     var site = position(offer.latitude, offer.longitude)
 
     // Add Google Marker using custom icon
@@ -125,7 +127,7 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
          position: site,
          pixelOffset: new google.maps.Size(-140, 0),
          content: createInfoWindowContent(offer),
-         // zIndex: $scope.locations.length,
+         zIndex: $scope.locations.length,
          boxStyle: {
             background: "url('http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/examples/tipbox.gif') no-repeat",
             opacity: 0.85,
