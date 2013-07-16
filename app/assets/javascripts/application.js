@@ -48,9 +48,7 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
       // }, 500 * delay++);
 
         //removes first offer from locations so array doesn't grow indefintely
-        if($scope.locations.length > 2){
           $scope.locations.splice(0,1)
-        }
     // }
   }, true)
 
