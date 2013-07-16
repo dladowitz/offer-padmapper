@@ -46,7 +46,7 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
       $timeout(function() {
         addMarkerAndWindow(diff[0], diff.length);
         delay--;
-      }, 3000 * delay++);
+      }, 5000 * delay++);
     }
   }, true)
 
@@ -66,12 +66,17 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
     return new google.maps.LatLng(latitude, longitude)
   }
 
+  // function get_icon (offer_id) {
+  //   var ICON_HASH_SALT = 'Gi97taauc9VFnb1vDbxWE1ID8Jjv06Il0EehMIKQ'
+  //   Digest::SHA2.hexdigest(ICON_HASH_SALT + offer_id)
+  //  }
+
   //creates html using join method
   function createInfoWindowContent(offer) {
     return [
-      "<div style='white-space: nowrap; border:2px solid black; overflow: hidden; padding: 10px 13px 10px 13px; margin-top: 10px; background:#333; color:#EEE; font-family: Helvetica, Arial, sans-serif; font-size:14px; font-weight: 100; border-radius: 4px; box-shadow: 2px 3px 12px #000' >",
-       "<div style='float:left; margin-right: 12px; padding-top: 2px;'>",
-          "<img src='images/icons/" + $scope.icons[Math.floor(Math.random() * $scope.icons.length)] + "' height=57 width=57 style='border-radius:4px' >",
+      "<div style='white-space: nowrap; border:2px solid black; overflow: hidden; padding: 10px 13px 10px 13px; margin: 10px; background:#333; color:#EEE; font-family: Helvetica, Arial, sans-serif; font-size:14px; font-weight: 100; border-radius: 4px; box-shadow: 2px 3px 12px #000' >",
+       "<div style='float:left; margin-right: 12px; padding-top: 10px;'>",
+          "<img src='" + offer.icon_url + "' height=57 width=57 style='border-radius:15px'>",
         "</div>",
         "<div style='float:right;'>",
           "<span style='white-space: nowrap;'><span style='font-size: 17px; color: white;'>Offer</span >:  " + offer.offer_name + "</span>",
@@ -79,6 +84,8 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
           "<span style='white-space: nowrap;'><span style='font-size: 17px; color: white;'>Device Type</span >:  " + offer.device_type + "</span>",
           "<br>",
           "<span style='white-space: nowrap;'><span style='font-size: 17px; color: white;'>Dollar Value</span >:  $" + (offer.revenue) + "</span>",
+          "<br>",
+          "<span style='white-space: nowrap;'><span style='font-size: 17px; color: white;'>Location</span >:  " + (offer.address) + "</span>",
         "</div>",
       "</div>"
     ].join('');
@@ -116,7 +123,7 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
          position: site,
          pixelOffset: new google.maps.Size(-140, 0),
          content: createInfoWindowContent(offer),
-         zIndex: $scope.locations.length,
+         // zIndex: $scope.locations.length,
          boxStyle: {
             background: "url('http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/examples/tipbox.gif') no-repeat",
             opacity: 0.85,
