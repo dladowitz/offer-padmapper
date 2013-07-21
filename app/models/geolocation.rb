@@ -22,7 +22,7 @@ class Geolocation
         loc = { :latitude => geoloc[0].latitude, :longitude => geoloc[0].longitude, :address => geoloc[0].address } if geoloc && geoloc[0]
 
         #because we don't want to send the data publicly
-        keys_to_delete = [:offer_id, :ip_address, :source, :offer_type]
+        keys_to_delete = [:offer_id, :ip_address, :source, :offer_type, :revenue]
         keys_to_delete.each { |key| query.delete(key)}
 
         if loc
