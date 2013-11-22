@@ -9,7 +9,13 @@ class Geolocation
     end
 
     def obtain_location
+puts "calling vertica"
       results = VerticaQuery.get_conversion_attempts
+puts "finished vertical query"
+puts "results: #{results.length}"
+      conversions = []
+      batch = 0
+
       results.each do |query|
         icon_url = "https://d21x2jbj16e06e.cloudfront.net/icons/src/" + (Digest::SHA2.hexdigest(ICON_HASH_SALT + query[:offer_id])) + ".jpg"
 
@@ -26,16 +32,29 @@ class Geolocation
         keys_to_delete.each { |key| query.delete(key)}
 
         if loc
-          #publishes message to pusher service
-          publish_message(loc.merge(query))
-
-          #slows down the stream to pusher so there is a slow constant stream for new users.
-          #rake task still only runs every 10 min.
-          sleep 7
-        else
-          sleep 7
+          conversions << loc.merge(query)
         end
+
+        # The timing of dropping offers on the map is controlled by three factors
+        # 1 Number of conversions sent to pusher
+        # 2 sleep timeout
+        # 3 setTimeout length in application.js
+        # Optimalally  (conversion.length * setTimeout length) should be slightly less than sleep timeout
+        if conversions.length >= 10
+
+          #publishes conversions to pusher service
+          publish_message(conversions)
+
+          #slows down the stream to pusher
+          sleep 28
+
+          # resets after 10 conversions are sent
+          conversions = []
+          batch = 0
+        end
+
       end
+
     end
   end
 end

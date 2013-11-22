@@ -30,26 +30,61 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
   $scope.markers = [];
   $scope.InfoBoxes =[];
   $scope.locations = [];
+  var locations = $scope.locations
+  var z_counter = 0
 
+  // conversion are recieved in batches of 10
   pusher.bind('new_location', function(data) {
-    $scope.locations.push(data);
+    for (var i = 0; i < data.length; i++){
+      $scope.locations.push(data[i]);
+
+    }
   });
 
-  // var delay = 1
-  $scope.$watch('locations', function(newVal, oldVal) {
-    // Check diff between oldVal and newVal
-    var diff = newVal.slice(oldVal.length, newVal.length);
 
-    // if  (diff.length > 0) {
-      // Iterate over diff and create markers
-      // $timeout(function() {
-        addMarkerAndInfoBox(diff[0], diff.length);
-        // delay--;
-      // }, 500 * delay++);
+  $scope.$watch('locations', function() {
+    var delay = 1
+    // If needed use newVal and oldVal as parameters for this function
 
-        //removes first offer from locations so array doesn't grow indefintely
-          $scope.locations.splice(0,1)
-    // }
+    console.log("<< Watcher Triggered >>")
+
+    console.log("locations: ")
+    console.log(locations)
+
+    if (locations.length > 30){
+      locations.splice(29, locations.length);
+      console.log("Forced deletion. Over 30 conversions in locations")
+    }
+
+    // setTimeout is quirky in a loop. All loops will run until the stop condition. Then the function in
+    // setTimeout will fire for each loop that ran. This is why we need to increase the delay on each loop
+    console.log("<< For Loop Starting >>")
+
+    for (var i = 0; i < locations.length-1; i++) {
+      console.log("    i before timeout: " + i);
+      console.log("    current delay: " + delay);
+
+      setTimeout(function() {
+        console.log("<< Dropping Offer >>")
+        console.log("    offername:" + locations[0].offer_name)
+        console.log("    current locations length: " + locations.length)
+        console.log("    i inside of timeout: " + i);
+        console.log("    current delay: " + delay);
+        console.log("    z_counter: " + z_counter);
+        addMarkerAndInfoBox(locations[0]);
+        console.log("-- Dropping Offer --")
+        console.log("                     ")
+
+        // remove used offer from locations so it doesn't grow
+        locations.splice(0,1)
+      }, 3000 * delay++);
+    };
+
+    console.log("-- For Loop Ending --")
+    console.log("                 ")
+
+    console.log("-- Watcher Ending --")
+    console.log("                    ")
   }, true)
 
   // Display map
@@ -125,7 +160,7 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
          position: site,
          pixelOffset: new google.maps.Size(-140, 0),
          content: createInfoWindowContent(offer),
-         zIndex: $scope.locations.length,
+         zIndex: $scope.locations.z_counter,
          boxStyle: {
             background: "url('http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/examples/tipbox.gif') no-repeat",
             opacity: 0.85,
@@ -134,6 +169,8 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
         closeBoxMargin: "0px",
         closeBoxURL: "",
     });
+
+    z_counter++
 
     infobox.open(map);
     $scope.InfoBoxes.push(infobox)
