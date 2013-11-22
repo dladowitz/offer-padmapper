@@ -43,48 +43,51 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
 
 
   $scope.$watch('locations', function() {
-    var delay = 1
     // If needed use newVal and oldVal as parameters for this function
+    var delay = 1
+    var debug = false
+    var debug = getParameterByName("debug") ? true : false
 
-    console.log("<< Watcher Triggered >>")
-
-    console.log("locations: ")
-    console.log(locations)
+    if (debug) console.log("<< Watcher Triggered >>")
+    if (debug) console.log("locations: ")
+    if (debug) console.log(locations)
 
     if (locations.length > 30){
       locations.splice(29, locations.length);
-      console.log("Forced deletion. Over 30 conversions in locations")
+      if (debug) console.log("Forced deletion. Over 30 conversions in locations")
     }
 
     // setTimeout is quirky in a loop. All loops will run until the stop condition. Then the function in
     // setTimeout will fire for each loop that ran. This is why we need to increase the delay on each loop
-    console.log("<< For Loop Starting >>")
+    if (debug) console.log("<< For Loop Starting >>")
 
     for (var i = 0; i < locations.length-1; i++) {
-      console.log("    i before timeout: " + i);
-      console.log("    current delay: " + delay);
+    if (debug)   console.log("    i before timeout: " + i)
+    if (debug)   console.log("    current delay: " + delay)
 
       setTimeout(function() {
-        console.log("<< Dropping Offer >>")
-        console.log("    offername:" + locations[0].offer_name)
-        console.log("    current locations length: " + locations.length)
-        console.log("    i inside of timeout: " + i);
-        console.log("    current delay: " + delay);
-        console.log("    z_counter: " + z_counter);
-        addMarkerAndInfoBox(locations[0]);
-        console.log("-- Dropping Offer --")
-        console.log("                     ")
+        if (debug) console.log("<< Dropping Offer >>")
+        if (debug) console.log("    offername:" + locations[0].offer_name)
+        if (debug) console.log("    current locations length: " + locations.length)
+        if (debug) console.log("    i inside of timeout: " + i)
+        if (debug) console.log("    current delay: " + delay)
+        if (debug) console.log("    z_counter: " + z_counter)
+
+        addMarkerAndInfoBox(locations[0])
+
+        if (debug) console.log("-- Dropping Offer --")
+        if (debug) console.log("                     ")
 
         // remove used offer from locations so it doesn't grow
         locations.splice(0,1)
       }, 3000 * delay++);
     };
 
-    console.log("-- For Loop Ending --")
-    console.log("                 ")
+    if (debug) console.log("-- For Loop Ending --")
+    if (debug) console.log("                 ")
 
-    console.log("-- Watcher Ending --")
-    console.log("                    ")
+    if (debug) console.log("-- Watcher Ending --")
+    if (debug) console.log("                    ")
   }, true)
 
   // Display map
@@ -103,11 +106,6 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
     return new google.maps.LatLng(latitude, longitude)
   }
 
-  // function get_icon (offer_id) {
-  //   var ICON_HASH_SALT = 'Gi97taauc9VFnb1vDbxWE1ID8Jjv06Il0EehMIKQ'
-  //   Digest::SHA2.hexdigest(ICON_HASH_SALT + offer_id)
-  //  }
-
   //creates html using join method
   function createInfoWindowContent(offer) {
     return [
@@ -119,6 +117,7 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
           "<span style='white-space: nowrap;'><span style='font-size: 17px; color: white;'>Offer</span >:  " + offer.offer_name + "</span>",
           "<br>",
           "<span style='white-space: nowrap;'><span style='font-size: 17px; color: white;'>Device Type</span >:  " + offer.device_type + "</span>",
+          // we might want to add revenue back at somepoint
           // "<br>",
           // "<span style='white-space: nowrap;'><span style='font-size: 17px; color: white;'>Dollar Value</span >:  $" + (offer.revenue) + "</span>",
           "<br>",
@@ -148,13 +147,6 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
       $scope.markers[($scope.markers.length - 11)].setMap(null);
     }
 
-    // Old version - using infobox instead
-    // var infoWindow = new google.maps.InfoWindow({
-    //   position: site,
-    //   content: createInfoWindowContent(offer),
-    //   zIndex: $scope.locations.length
-    // });
-
     // Add InfoBox to map
     infobox = new InfoBox({
          position: site,
@@ -182,5 +174,12 @@ offerPad.controller('MapCtrl', function($scope, $timeout, pusher) {
   }
 
   google.maps.event.addDomListener(window, 'load', initialize);
+
+  function getParameterByName(name) {
+      name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+          results = regex.exec(location.search);
+      return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+  }
 
 });

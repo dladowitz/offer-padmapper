@@ -9,14 +9,13 @@ class Geolocation
     end
 
     def obtain_location
-puts "calling vertica"
       results = VerticaQuery.get_conversion_attempts
-puts "finished vertical query"
-puts "results: #{results.length}"
       conversions = []
       batch = 0
 
       results.each do |query|
+        # Note that offer_id does not work for many offers
+        # view Offer#override_icon in TJS for more info
         icon_url = "https://d21x2jbj16e06e.cloudfront.net/icons/src/" + (Digest::SHA2.hexdigest(ICON_HASH_SALT + query[:offer_id])) + ".jpg"
 
         # Tests for valid icon_url
