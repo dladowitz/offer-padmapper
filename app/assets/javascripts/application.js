@@ -8,7 +8,8 @@ offerPad.factory('pusher', function($rootScope) {
 
   Pusher.log = function(message) {
     if(window.console && window.console.log) {
-      window.console.log(message);
+      // can be turned back on to log the full offer/message to the console
+      // window.console.log(message);
     }
   };
 
